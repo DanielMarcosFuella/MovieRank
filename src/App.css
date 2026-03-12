@@ -1,6 +1,28 @@
-.tittle{
-  margin-top: 20px;
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
+  padding: 15px 30px;
+
+  background-color: #111111;
+  color: white;
+}
+
+.headerLeft {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.headerRight {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.title {
   text-align: center;
-  font-size: 3rem;
-  color: blue;
+  margin: 0;
+  font-size: 3.5rem;
+  font-weight: 900;
+
 }

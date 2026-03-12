@@ -2,20 +2,22 @@ import { useParams} from "react-router-dom"
 import { get } from "../data/httpClient"
 import {getMovieImg} from "../utils/getMovieImg"
 import { useState } from "react"
-import { useEffect } from "react"
+import { useEffect, useContext } from "react"
+import { LanguageContext } from "../context/LanguageContext";
 import "../pages/MovieDetails.css"
 
 export function MovieDetails() {
     const {movieId} = useParams();
+    const { language } = useContext(LanguageContext);
     const [movie, setMovie] = useState ([]);
     const [generos, setGeneros] = useState ([]);
     
     useEffect(()=>{
-        get("/movie/"+movieId+ "?language=es-ES").then((data)=>{
+        get("/movie/"+movieId+ "?language="+language).then((data)=>{
             setMovie(data)
             setGeneros(data.genres[0].name)
         })
-    },[movieId])
+    },[movieId, language])
     const imageUrl = getMovieImg(movie.poster_path, 500)
 
     return(<div className="detailsContainer">

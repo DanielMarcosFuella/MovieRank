@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { LanguageContext } from "../context/LanguageContext";
 import esFlag from "../img/es.png";
 import enFlag from "../img/en.png";
 import frFlag from "../img/fr.png";
@@ -15,13 +16,13 @@ const languages = [
   { code: "it-IT", flag: itFlag, name: "Italiano" }
 ];
 
-export function LanguageSelector({ setLanguage, language }) {
+export function LanguageSelector() {
+  const { language, setLanguage } = useContext(LanguageContext);
   const [open, setOpen] = useState(false);
   const containerRef = useRef(null);
 
-  const currentLanguage = languages.find(lang => lang.code === language);
+  const currentLanguage = languages.find((lang) => lang.code === language);
 
-  // Cerrar menú si se hace click fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
@@ -43,7 +44,7 @@ export function LanguageSelector({ setLanguage, language }) {
       </button>
 
       <ul className={`language-selector-menu ${open ? "open" : ""}`}>
-        {languages.map(lang => (
+        {languages.map((lang) => (
           <li key={lang.code}>
             <button
               onClick={() => {
