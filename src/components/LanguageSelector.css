@@ -1,0 +1,90 @@
+/* Contenedor principal */
+.language-selector {
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Botón principal */
+.language-selector-button {
+  font-size: 16px;
+  padding: 6px 10px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 100px;
+  justify-content: space-between;
+  transition: background 0.2s;
+}
+
+.language-selector-button:hover {
+  background: #f0f0f0;
+}
+
+/* Menú desplegable */
+.language-selector-menu {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  width: max-content;
+  min-width: 150px;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+/* Mostrar menú */
+.language-selector-menu.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Opciones del menú */
+.language-selector-menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.language-selector-menu button:hover {
+  background: #f5f5f5;
+  transform: scale(1.05);
+}
+
+/* Imagen de bandera */
+.language-selector-menu img,
+.language-selector-button img {
+  width: 24px;
+  height: 16px;
+}
+
+/* Responsive para móvil */
+@media (max-width: 480px) {
+  .language-selector {
+    justify-content: center;
+  }
+}
