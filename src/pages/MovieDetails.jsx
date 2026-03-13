@@ -23,7 +23,7 @@ export function MovieDetails() {
     return(<div className="detailsContainer">
         <img src={imageUrl} alt={movie.title} className="col movieImg"/>
         <div className="col movieDetails">
-            <p className="title">
+            <p className="titleDetail">
                 <strong>Título: </strong>
                 {movie.title}
             </p>

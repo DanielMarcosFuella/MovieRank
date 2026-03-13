@@ -1,0 +1,45 @@
+.searchContainer {
+  position: relative;
+}
+
+.searchInput {
+
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+
+  width: 200px;
+
+  font-size: 14px;
+}
+
+.searchResults {
+
+  position: absolute;
+  top: 40px;
+
+  width: 200px;
+
+  background: #222;
+  list-style: none;
+
+  padding: 0;
+  margin: 0;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+}
+
+.searchResults li {
+  padding: 8px 10px;
+}
+
+.searchResults li a {
+  color: white;
+  text-decoration: none;
+}
+
+.searchResults li:hover {
+  background: #444;
+}

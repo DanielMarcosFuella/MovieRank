@@ -3,6 +3,8 @@ import './App.css'
 import { MyRoutes } from './routers/routes'
 import { LanguageProvider } from "./context/LanguageContext";
 import { LanguageSelector } from './components/LanguageSelector';
+import { SearchBar } from './components/SearchBar';
+import { Link } from "react-router-dom";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,8 +16,10 @@ function App() {
       <div className='headerLeft'>
           <LanguageSelector />
       </div> 
-      <h1 className='title'>MovieRank</h1>
-      <div className="headerRight"></div>
+      <Link to="/">
+        <h1 className="title">MovieRank</h1>
+      </Link>
+      <div className="headerRight"><SearchBar /></div>
     </header>
     <MyRoutes/>
     </div>
