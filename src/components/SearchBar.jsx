@@ -67,8 +67,6 @@ export function SearchBar() {
               </Link>
             </li>
           ))}
-// 
-              onClick={clearSearch}
         </ul>
       )}
 

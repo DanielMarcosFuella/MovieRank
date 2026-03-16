@@ -24,3 +24,13 @@
 .titleDetail {
     margin-top: 0;
 }
+
+.genreChip {
+  display: inline-block;
+  background-color: #f5c518; /* color tipo IMDb */
+  color: #000;
+  padding: 4px 8px;
+  margin: 2px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}

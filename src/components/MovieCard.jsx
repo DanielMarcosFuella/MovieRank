@@ -14,7 +14,10 @@ export function MovieCard({movie}){
        
         </Link>
          <div className={styles.title}>
-            {movie.title}
+            {movie.title} <br />
+        </div>
+        <div>
+            <span className="rating">⭐ {Math.round(movie.vote_average*100)/100}</span>
         </div>
     </li>)
 }

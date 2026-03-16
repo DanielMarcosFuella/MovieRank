@@ -4,6 +4,7 @@
     import "../components/ContextMovieCard.css"
     import { LanguageContext } from "../context/LanguageContext";
     import { useLocation } from "react-router-dom";
+    import { FiltersPanel } from "./FiltersPanel";
 
 
     export function ContextMovieCard(){
@@ -14,12 +15,38 @@
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const observer = useRef();
+    const [filters,setFilters]=useState({
+        genres:[],
+        rating:0,
+        yearFrom:"",
+        yearTo:"",
+        sort:"popularity.desc"
+    })
     
     useEffect(() => {
-        const endpoint = query
-            ? `/search/movie?query=${query}&language=${language}&page=${page}`
-            : `/discover/movie?language=${language}&page=${page}`;
-            get(endpoint).then((data) => {
+        let endpoint = `/discover/movie?language=${language}&page=${page}&sort_by=${filters.sort}`;
+
+        if (filters.genres.length > 0) {
+        endpoint += `&with_genres=${filters.genres.join(",")}`;
+        }
+
+        if (filters.rating > 0) {
+        endpoint += `&vote_average.gte=${filters.rating}`;
+        }
+
+        if (filters.yearFrom) {
+        endpoint += `&primary_release_date.gte=${filters.yearFrom}-01-01`;
+        }
+
+        if (filters.yearTo) {
+        endpoint += `&primary_release_date.lte=${filters.yearTo}-12-31`;
+        }
+
+        if (query) {
+        endpoint = `/search/movie?query=${query}&language=${language}&page=${page}`;
+        }
+
+        get(endpoint).then((data) => {
             if (page === 1) {
             SetMovies(data.results);
             } else {
@@ -29,7 +56,7 @@
             setHasMore(false);
             }
         });
-        }, [language, query, page]);
+        }, [language, query, page, filters]);
 
         useEffect(() => {
             setPage(1);
@@ -48,6 +75,7 @@
         };
         return(
             <div>
+            <FiltersPanel filters={filters} setFilters={setFilters} />
         <ul className="container">
             {movies.map((movie, index) => {
             if (movies.length === index + 1) {
@@ -60,5 +88,8 @@
             return <MovieCard key={movie.id} movie={movie} />;
             })}
         </ul>
+            {movies.length === 0 && (
+            <p className="noResults">No se encontraron películas</p>
+        )}
         </div>)
     }

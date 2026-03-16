@@ -2,15 +2,13 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-
   padding: 15px 30px;
-
   background-color: #111111;
   color: white;
 }
 .header a {
   text-decoration: none;
-}
+} 
 
 .headerLeft {
   display: flex;
@@ -25,19 +23,16 @@
 .title {
   text-align: center;
   margin: 0;
-
   font-size: clamp(3rem, 5vw, 4.5rem);
   font-weight: 800;
-
   letter-spacing: 2px;
-
   background: linear-gradient(90deg, #f5c518, #ffd95a);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
   text-shadow: 0 0 15px rgba(245,197,24,0.25);
 }
+
 .title:hover {
   text-shadow: 0 0 25px rgba(245,197,24,0.6);
   transition: 0.3s;
