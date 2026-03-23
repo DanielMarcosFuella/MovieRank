@@ -1,11 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { get } from "../data/httpClient";
 import "./FiltersPanel.css";
 
 export function FiltersPanel({ filters, setFilters }) {
 
+const containerRef = useRef(null);
 const [open,setOpen]=useState(false);
 const [genres,setGenres]=useState([]);
+
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      containerRef.current &&
+      !containerRef.current.contains(event.target)
+    ) {
+      setOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
 
 useEffect(()=>{
 get("/genre/movie/list")
@@ -30,7 +48,7 @@ genres:[...filters.genres,id]
 }
 
 return(
-<div className="filtersContainer">
+<div className="filtersContainer" ref={containerRef}>
 <button
 className="filtersToggle"
 onClick={()=>setOpen(!open)}
@@ -38,9 +56,8 @@ onClick={()=>setOpen(!open)}
 ⚙ Filters
 </button>
 
-{open && (
+<div className={`filtersPanel ${open ? "open" : ""}`}>
 
-<div className="filtersPanel">
 
 <section>
 
@@ -139,7 +156,6 @@ sort:"popularity.desc"
 Clear filters
 </button>
 </div>
-)}
 </div>
 )
 }

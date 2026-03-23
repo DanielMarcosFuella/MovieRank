@@ -23,6 +23,7 @@
         sort:"popularity.desc"
     })
     
+    
     useEffect(() => {
         let endpoint = `/discover/movie?language=${language}&page=${page}&sort_by=${filters.sort}`;
 
@@ -61,7 +62,19 @@
         useEffect(() => {
             setPage(1);
             setHasMore(true);
-        }, [query, language]);
+        }, [query, language, filters]);
+
+        useEffect(() => {
+            if (location.pathname === "/") {
+                setFilters({
+                genres: [],
+                rating: 0,
+                yearFrom: "",
+                yearTo: "",
+                sort: "popularity.desc"
+                });
+            }
+        }, [location.key]);
 
         const lastMovieRef = (node) => {
             if (!hasMore) return;

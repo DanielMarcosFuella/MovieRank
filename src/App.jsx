@@ -6,6 +6,7 @@ import { LanguageSelector } from './components/LanguageSelector';
 import { SearchBar } from './components/SearchBar';
 import { Link } from "react-router-dom";
 
+
 function App() {
   const [count, setCount] = useState(0)
 
