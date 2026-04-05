@@ -22,6 +22,15 @@
         yearTo:"",
         sort:"popularity.desc"
     })
+    const translations = {
+        noResults: {
+            "es-ES": "No se encontraron películas",
+            "en-US": "No movies found",
+            "fr-FR": "Aucun film trouvé",
+            "de-DE": "Keine Filme gefunden",
+            "it-IT": "Nessun film trovato"
+        }
+    };
     
     
     useEffect(() => {
@@ -102,7 +111,9 @@
             })}
         </ul>
             {movies.length === 0 && (
-            <p className="noResults">No se encontraron películas</p>
+        <p className="noResults">
+            {translations.noResults[language] || translations.noResults["en-US"]}
+        </p>
         )}
         </div>)
     }

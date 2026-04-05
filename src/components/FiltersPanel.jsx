@@ -120,7 +120,7 @@ step="0.5"
 value={filters.rating}
 onChange={(e)=>setFilters({
 ...filters,
-rating:e.target.value
+rating:Number(e.target.value)
 })}
 />
 

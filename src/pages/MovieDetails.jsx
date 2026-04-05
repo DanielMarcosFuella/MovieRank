@@ -11,6 +11,8 @@ export function MovieDetails() {
     const { language } = useContext(LanguageContext);
     const [movie, setMovie] = useState ([]);
     const [generos, setGeneros] = useState ([]);
+    const [cast, setCast] = useState([]);
+    const [director, setDirector] = useState(null);
     
     useEffect(() => {
         get("/movie/" + movieId + "?language=" + language).then((data) => {
@@ -22,6 +24,15 @@ export function MovieDetails() {
             } else {
                 setGeneros("No especificado");
             }
+        });
+        get(`/movie/${movieId}/credits?language=${language}`).then((data) => {
+            setCast(data.cast.slice(0, 5));
+
+            const directorData = data.crew.find(
+                (person) => person.job === "Director"
+            );
+
+            setDirector(directorData);
         });
     }, [movieId, language]);
     const imageUrl = getMovieImg(movie.poster_path, 500)
@@ -46,6 +57,34 @@ export function MovieDetails() {
             "fr-FR": "Description",
             "de-DE": "Beschreibung",
             "it-IT": "Descrizione"
+        },
+        year: {
+            "es-ES": "Año",
+            "en-US": "Year",
+            "fr-FR": "Année",
+            "de-DE": "Jahr",
+            "it-IT": "Anno"
+        },
+        duration: {
+            "es-ES": "Duración",
+            "en-US": "Duration",
+            "fr-FR": "Durée",
+            "de-DE": "Dauer",
+            "it-IT": "Durata"
+        },
+        director: {
+            "es-ES": "Director",
+            "en-US": "Director",
+            "fr-FR": "Réalisateur",
+            "de-DE": "Regisseur",
+            "it-IT": "Regista"
+        },
+        actors: {
+            "es-ES": "Actores",
+            "en-US": "Cast",
+            "fr-FR": "Acteurs",
+            "de-DE": "Schauspieler",
+            "it-IT": "Attori"
         }
     };
 
@@ -59,6 +98,28 @@ export function MovieDetails() {
             <strong>{translations.title[language]}: </strong>
             {movie.title}
             </p>
+            <p>
+                <strong>{translations.year[language]}: </strong>
+                {movie.release_date ? movie.release_date.split("-")[0] : "N/A"}
+            </p>
+            <p>
+                <strong>{translations.duration[language]}: </strong>
+                {movie.runtime ? `${movie.runtime} min` : "N/A"}
+            </p>
+            <p>
+                <strong>{translations.director[language]}: </strong>
+                {director ? director.name : "No disponible"}
+            </p>
+            <div>
+                <strong>{translations.actors[language]}: </strong>
+                <ul>
+                    {cast.map(actor => (
+                    <li key={actor.id}>
+                        {actor.name}
+                    </li>
+                    ))}
+                </ul>
+            </div>
             <p>
             <strong>{translations.genre[language]}: </strong>
             {movie.genres && movie.genres.length > 0 ? (
