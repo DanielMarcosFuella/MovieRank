@@ -34,3 +34,59 @@
   border-radius: 12px;
   font-size: 0.9rem;
 }
+.castSection {
+  margin-top: 20px;
+}
+
+.castList {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 10px 0;
+}
+
+.castList::-webkit-scrollbar {
+  height: 8px;
+}
+
+.castList::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.actorCard {
+  min-width: 100px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.actorImage {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.actorPlaceholder {
+  width: 100px;
+  height: 150px;
+  background: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.actorName {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.actorCharacter {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  
+}

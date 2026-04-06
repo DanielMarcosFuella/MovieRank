@@ -110,15 +110,33 @@ export function MovieDetails() {
                 <strong>{translations.director[language]}: </strong>
                 {director ? director.name : "No disponible"}
             </p>
-            <div>
-                <strong>{translations.actors[language]}: </strong>
-                <ul>
-                    {cast.map(actor => (
-                    <li key={actor.id}>
-                        {actor.name}
-                    </li>
-                    ))}
-                </ul>
+            <div className="castSection">
+            <strong>{translations.actors[language]}: </strong>
+
+            <div className="castList">
+                {cast.map(actor => {
+                const imageUrl = actor.profile_path
+                    ? "https://image.tmdb.org/t/p/w185" + actor.profile_path
+                    : null;
+
+                return (
+                    <div key={actor.id} className="actorCard">
+                    {imageUrl ? (
+                        <img
+                        src={imageUrl}
+                        alt={actor.name}
+                        className="actorImage"
+                        />
+                    ) : (
+                        <div className="actorPlaceholder">No Img</div>
+                    )}
+
+                    <span className="actorName">{actor.name}</span>
+                    <span className="actorCharacter">{actor.character}</span>
+                    </div>
+                );
+                })}
+            </div>
             </div>
             <p>
             <strong>{translations.genre[language]}: </strong>
