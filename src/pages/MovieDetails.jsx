@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useEffect, useContext } from "react"
 import { LanguageContext } from "../context/LanguageContext";
 import "../pages/MovieDetails.css"
+import { Link } from "react-router-dom";
 
 export function MovieDetails() {
     const {movieId} = useParams();
@@ -107,9 +108,15 @@ export function MovieDetails() {
                 {movie.runtime ? `${movie.runtime} min` : "N/A"}
             </p>
             <p>
-                <strong>{translations.director[language]}: </strong>
-                {director ? director.name : "No disponible"}
-            </p>
+            <strong >{translations.director[language]}: </strong>
+            {director ? (
+                <Link to={`/person/${director.id}`} className="directorLink">
+                {director.name}
+                </Link>
+            ) : (
+                "No disponible"
+            )}
+            </p>       
             <div className="castSection">
             <strong>{translations.actors[language]}: </strong>
 
@@ -119,7 +126,7 @@ export function MovieDetails() {
                     ? "https://image.tmdb.org/t/p/w185" + actor.profile_path
                     : null;
 
-                return (
+                return (<Link to={`/person/${actor.id}`}>
                     <div key={actor.id} className="actorCard">
                     {imageUrl ? (
                         <img
@@ -134,6 +141,7 @@ export function MovieDetails() {
                     <span className="actorName">{actor.name}</span>
                     <span className="actorCharacter">{actor.character}</span>
                     </div>
+                    </Link>
                 );
                 })}
             </div>

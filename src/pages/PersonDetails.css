@@ -1,0 +1,25 @@
+.personContainer {
+  padding: 20px;
+}
+
+.personImage {
+  width: 200px;
+  border-radius: 10px;
+}
+
+.moviesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 40px;
+  padding: 0;
+}
+
+.personHeader {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.personInfo {
+  flex: 1;
+}

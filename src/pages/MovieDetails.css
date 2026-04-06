@@ -58,6 +58,12 @@
   min-width: 100px;
   text-align: center;
   flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.actorCard:hover {
+  transform: scale(1.05);
 }
 
 .actorImage {
@@ -89,4 +95,20 @@
   margin-top: 6px;
   font-size: 12px;
   
+}
+.castList a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.castList a:visited {
+  color: inherit;
+}
+.directorLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.directorLink:visited {
+  color: inherit;
 }
