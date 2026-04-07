@@ -23,11 +23,14 @@ export function SearchBar() {
 
     const delayDebounce = setTimeout(() => {
 
-      get(`/search/movie?query=${encodeURIComponent(query)}`)
+      get(`/search/multi?query=${encodeURIComponent(query)}`)
         .then((data) => {
           if (data && data.results) {
-            setResults(data.results.slice(0,5));
-          }
+          const filteredResults = data.results
+            .filter(item => item.media_type === "movie" || item.media_type === "person")
+            .slice(0, 5);
+
+          setResults(filteredResults);          }
         })
         .catch((error) => {
           console.error("Search error:", error);
@@ -59,14 +62,23 @@ export function SearchBar() {
       {results.length > 0 && (
         <ul className="searchResults">
 
-          {results.map(movie => (
-            <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`}
-              onClick={clearSearch}>
-                {movie.title}
+        {results.map(item => (
+          <li key={item.id}>
+
+            {item.media_type === "movie" && (
+              <Link to={`/movies/${item.id}`} onClick={clearSearch}>
+                🎬 {item.title}
               </Link>
-            </li>
-          ))}
+            )}
+
+            {item.media_type === "person" && (
+              <Link to={`/person/${item.id}`} onClick={clearSearch}>
+                👤 {item.name}
+              </Link>
+            )}
+
+          </li>
+        ))}
         </ul>
       )}
 
