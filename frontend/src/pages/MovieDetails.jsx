@@ -6,6 +6,7 @@ import { useEffect, useContext } from "react"
 import { LanguageContext } from "../context/LanguageContext";
 import "../pages/MovieDetails.css"
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 export function MovieDetails() {
     const {movieId} = useParams();
@@ -14,7 +15,57 @@ export function MovieDetails() {
     const [generos, setGeneros] = useState ([]);
     const [cast, setCast] = useState([]);
     const [director, setDirector] = useState(null);
+    const { token, lists, fetchLists } = useContext(AuthContext);
+
+    const isInList = (type) => {
+    return lists.some(
+        (item) => item.movie_id === Number(movieId) && item.type === type
+    );
+    };
+
+    const addToList = async (type) => {
+    await fetch("http://localhost:3000/lists", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+        movieId: movieId,
+        type: type,
+        }),
+    });
+    fetchLists(token);
+    };
     
+    const removeFromList = async (type) => {
+    await fetch("http://localhost:3000/lists", {
+        method: "DELETE",
+        headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+        movieId: movieId,
+        type: type,
+        }),
+    });
+
+    fetchLists(token);
+    };
+
+    const toggleList = async (type) => {
+    const exists = lists.some(
+        (item) => item.movie_id === Number(movieId) && item.type === type
+    );
+
+    if (exists) {
+        await removeFromList(type);
+    } else {
+        await addToList(type);
+    }
+    };
+
     useEffect(() => {
         get("/movie/" + movieId + "?language=" + language).then((data) => {
             setMovie(data);
@@ -36,6 +87,7 @@ export function MovieDetails() {
             setDirector(directorData);
         });
     }, [movieId, language]);
+    
     const imageUrl = getMovieImg(movie.poster_path, 500)
     const translations = {
         title: {
@@ -90,8 +142,38 @@ export function MovieDetails() {
     };
 
     return(<div className="detailsContainer">
+        
         <img src={imageUrl} alt={movie.title} className="col movieImg"/>
         <div className="col movieDetails">
+        {token && (
+        <div className="listsButtons">
+
+            <button onClick={() => toggleList("favorite")}>
+            {lists.some(
+                (i) => i.movie_id === Number(movieId) && i.type === "favorite"
+            )
+                ? "❌ Quitar Favoritos"
+                : "❤️ Favoritos"}
+            </button>
+
+            <button onClick={() => toggleList("watched")}>
+            {lists.some(
+                (i) => i.movie_id === Number(movieId) && i.type === "watched"
+            )
+                ? "❌ Quitar Vistas"
+                : "👀 Vistas"}
+            </button>
+
+            <button onClick={() => toggleList("watchlist")}>
+            {lists.some(
+                (i) => i.movie_id === Number(movieId) && i.type === "watchlist"
+            )
+                ? "❌ Quitar Pendientes"
+                : "📌 Pendientes"}
+            </button>
+
+        </div>
+        )}
             <div>
             <span>⭐ {Math.round(movie.vote_average*100)/100}</span>
             </div>
@@ -126,8 +208,8 @@ export function MovieDetails() {
                     ? "https://image.tmdb.org/t/p/w185" + actor.profile_path
                     : null;
 
-                return (<Link to={`/person/${actor.id}`}>
-                    <div key={actor.id} className="actorCard">
+                return (<Link key={actor.id} to={`/person/${actor.id}`}>
+                    <div  className="actorCard">
                     {imageUrl ? (
                         <img
                         src={imageUrl}
