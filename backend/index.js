@@ -15,12 +15,9 @@ app.use(express.json());
 
 const PORT = 3000;
 
+
 app.get("/test", (req, res) => {
   res.json({ message: "Backend funcionando 🚀" });
-});
-
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
 app.get("/db-test", async (req, res) => {
@@ -41,9 +38,9 @@ app.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await pool.query(
-      "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
+      "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id, username, email",
       [username, email, hashedPassword]
-    );  
+    );
 
     res.json(result.rows[0]);
   } catch (error) {
@@ -80,11 +77,13 @@ app.post("/login", async (req, res) => {
     );
 
     res.json({ token });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error en login" });
   }
 });
+
 
 app.get("/me", authMiddleware, async (req, res) => {
   try {
@@ -98,6 +97,52 @@ app.get("/me", authMiddleware, async (req, res) => {
     res.status(500).json({ error: "Error obteniendo usuario" });
   }
 });
+
+app.put("/user", authMiddleware, async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const userId = req.user.userId;
+
+    if (username && username.trim() !== "") {
+      await pool.query(
+        "UPDATE users SET username = $1 WHERE id = $2",
+        [username, userId]
+      );
+    }
+
+    if (password && password.trim() !== "") {
+      const hashedPassword = await bcrypt.hash(password.trim(), 10);
+
+      await pool.query(
+        "UPDATE users SET password = $1 WHERE id = $2",
+        [hashedPassword, userId]
+      );
+    }
+
+    res.json({ message: "Perfil actualizado correctamente" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al actualizar perfil" });
+  }
+});
+
+app.delete("/user", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    await pool.query("DELETE FROM user_movies WHERE user_id = $1", [userId]);
+    await pool.query("DELETE FROM users WHERE id = $1", [userId]);
+
+    res.json({ message: "Usuario eliminado" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al eliminar usuario" });
+  }
+});
+
 
 app.post("/lists", authMiddleware, async (req, res) => {
   const { movieId, type } = req.body;
@@ -142,6 +187,7 @@ app.delete("/lists", authMiddleware, async (req, res) => {
   }
 });
 
+
 app.post("/check-email", async (req, res) => {
   const { email } = req.body;
 
@@ -150,11 +196,7 @@ app.post("/check-email", async (req, res) => {
     [email]
   );
 
-  if (result.rows.length > 0) {
-    return res.json({ exists: true });
-  }
-
-  res.json({ exists: false });
+  res.json({ exists: result.rows.length > 0 });
 });
 
 app.post("/check-username", async (req, res) => {
@@ -165,9 +207,10 @@ app.post("/check-username", async (req, res) => {
     [username]
   );
 
-  if (result.rows.length > 0) {
-    return res.json({ exists: true });
-  }
+  res.json({ exists: result.rows.length > 0 });
+});
 
-  res.json({ exists: false });
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
