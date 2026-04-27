@@ -1,16 +1,145 @@
-# React + Vite
+# 🎬 MovieRank
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web para descubrir películas y gestionar listas personales (favoritas, vistas y pendientes).
 
-Currently, two official plugins are available:
+## 🚀 Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* 🔍 Buscar películas
+* 📄 Ver detalles de cada película
+* 👤 Registro y login de usuarios
+* ❤️ Añadir a favoritos
+* 👀 Marcar como vista
+* 📌 Guardar en pendientes
+* ✏️ Editar perfil (usuario y contraseña)
+* ❌ Eliminar cuenta
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tecnologías utilizadas
 
-## Expanding the ESLint configuration
+### Frontend
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* React
+* Vite
+* CSS
+
+### Backend
+
+* Node.js
+* Express
+* PostgreSQL
+* JWT (autenticación)
+
+---
+
+## 📦 Instalación
+
+Clona el repositorio:
+
+```bash
+git clone https://github.com/TU_USUARIO/movierank.git
+cd movierank
+```
+
+---
+
+## ⚙️ Configuración
+
+### 🔐 Variables de entorno
+
+Debes crear un archivo `.env` en la carpeta **backend**:
+
+```env
+PORT=3000
+DB_USER=tu_usuario
+DB_PASSWORD=tu_password
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=movierank
+JWT_SECRET=secret_token_movierank
+TMDB_API_KEY=tu_api_key
+```
+
+👉 **IMPORTANTE:**
+
+* No se incluye este archivo por seguridad
+* Debes usar tu propia API key de TMDB
+
+---
+
+## 🗄️ Base de datos
+
+Asegúrate de tener PostgreSQL instalado y crea la base de datos:
+
+```sql
+CREATE DATABASE movierank;
+```
+
+Luego crea las tablas necesarias (usuarios y listas).
+
+---
+
+## ▶️ Ejecutar el proyecto
+
+### Backend
+
+```bash
+cd backend
+yarn install
+yarn start
+```
+
+Servidor en:
+
+```
+http://localhost:3000
+```
+
+---
+
+### Frontend
+
+```bash
+cd frontend
+yarn install
+yarn dev
+```
+
+App en:
+
+```
+http://localhost:5173
+```
+
+---
+
+## 🔑 Autenticación
+
+El sistema usa JWT.
+El token se guarda en localStorage tras el login.
+
+---
+
+## 📌 Notas
+
+* Las acciones de listas requieren sesión iniciada
+* El proyecto consume la API de TMDB
+* Las contraseñas están encriptadas
+
+---
+
+## 🚧 Mejoras futuras
+
+* 🌍 Soporte multiidioma completo
+* 🖼️ Avatar de usuario
+* ⭐ Valoraciones personalizadas
+* 🎨 Mejoras de diseño y animaciones
+* 🔎 Filtros avanzados de búsqueda
+
+---
+
+## 👨‍💻 Autor
+
+Proyecto desarrollado por Daniel Marcos Fuella
+
+---
